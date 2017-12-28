@@ -62,6 +62,20 @@ rule "GoodBye"
 end
 
 
+query subtest(Double $k) 
+    accumulate($p : Person();$s:=sum($p.getAge()),$s:=count(1))
+    eval($s > 1)
+end
+
+rule "GoodBye2"
+  salience 9999
+	 dialect "mvel"
+    when  
+       subtest($k;) 
+    then 
+        System.out.println("xxxxxxxxxxxxxxxxxxxx"+$k);  
+end
+
 rule "test-ruleflow-group1"
     activation-group "group1"
     salience 200
