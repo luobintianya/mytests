@@ -2,40 +2,7 @@ package com.sample
  
 import com.sample.Message;
 import java.util.Map;
- 
-import com.sample.Person;
-declare Cheese
-    name : String  @position(1)
-    shop : String @position(2)
-    price : int @position(0)
-end
-/*
-declare Person 
-    name : String
-    age : Double 
-    desc : String
-end
-*/
-query contains(String $s, String $c)
-    $s := String( this.contains( $c) )
-end
-
- 
-
-query containsx(Person $s, String $c)
-    $s := Person( this.name.contains( $c))
-end
-
-rule PersonNamesWithAf 
-dialect "mvel"
-	when 
-		$p:=Person()  
-	    containsx($p, "a";)
-	
-	then
-		System.out.println($p );
-end
- 
+  
 
 
 
@@ -51,8 +18,7 @@ rule "Hello World"
         update( m );
 end
 
-rule "GoodBye"
-	 
+rule "GoodBye" 
     when 
     	$config := Message(status == Message.GOODBYE,$km:10,$m:2220)  
         Message( status == Message.GOODBYE, myMessage : message,$config :=this)
@@ -62,48 +28,17 @@ rule "GoodBye"
 end
 
 
-query subtest(Double $k) 
-    accumulate($p : Person();$s:=sum($p.getAge()),$s:=count(1))
+query subtest(Person $k) 
+    accumulate($k := Person(age>20);$s:=sum($k.getAge()))
     eval($s > 1)
 end
 
 rule "GoodBye2"
   salience 9999
-	 dialect "mvel"
-    when  
-       subtest($k;) 
+  no-loop 
+    when    
+    $p: Person()
+       accumulate($p:= Person(name in ("ssaaaa","fff"));$total:sum($p.getAge()), $result_count : count(1))
     then 
-        System.out.println("xxxxxxxxxxxxxxxxxxxx"+$k);  
-end
-
-rule "test-ruleflow-group1"
-    activation-group "group1"
-    salience 200
-    when
-    	accumulate($p : Person();$total:sum($p.getAge()), $result_count : count(1))
-    	eval($total > 0)
-    then
-        System.out.println($result_count +"test-ruleflow-group1 被触发"+$total);
-    end
-rule "test-ruleflow-group2"
-	dialect "mvel" 
-	salience 190
-    activation-group"group1"
-    when 
-   		$p : Person() 
-   		  accumulate($2:Person(),$to:count($2))
-   		$total : Number(doubleValue > 0)
-    		from accumulate( $v:Integer() from $p.getCarts();sum($v))
-    then
-        System.out.println(""+$to+""+$p +"test-ruleflow-group2 被触发"+$total );
-    end
-    
-rule PersonNamesWithA 
-dialect "mvel" 
-	when
-	    $p : Person()  
-	then
-		Map variables = ["var":$p,"dk":10];
-		System.out.println("variable"+variables);
-		System.out.println( $p.getAge()/10 );
+        System.out.println("xxxxxxxxxxxxxxxxxxxx"+$total);  
 end

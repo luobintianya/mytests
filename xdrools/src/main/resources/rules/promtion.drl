@@ -1,0 +1,91 @@
+package com.sample
+ 
+import com.promotion.ProductRAO;
+import com.promotion.OrderEntryRAO;
+import com.promotion.CategoryRAO;
+
+import java.util.LinkedList;
+ 
+query rule_b445c0ee3b8249789c14e8a83090241c_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,LinkedList $list,Number $total,Number $total2)
+   (
+   		
+         $v4 := CategoryRAO(code in ("600208", "600213"))
+         and
+         $v5 := ProductRAO(categories contains $v4, code not in ("1022140008")) 
+         and 
+         $v6 := OrderEntryRAO(product.categories contains $v4) 
+         and 
+         $list :=LinkedList()
+				from collect(OrderEntryRAO(product.categories contains $v4) )
+         and
+	     $total := Number()
+			from accumulate($orderentry:OrderEntryRAO() from $v6 ,sum($orderentry.getQuantity()))
+		 and
+	     $total2 := Number()
+			from accumulate(OrderEntryRAO(product.categories contains $v4),
+			sum($v6.getQuantity()) )
+	    )
+end
+   
+   
+
+
+query rule_2_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,Number $total,Number $total2)
+   (
+   		  $v4 := CategoryRAO(code in ("600208", "600213"))
+         and 
+          $v5 := ProductRAO(categories contains $v4, code not in ("1022140008")) 
+         and  
+    	 $v6 := OrderEntryRAO(product.categories contains $v4) 
+		    )
+end
+   
+
+
+
+
+
+rule "b445c0ee-3b82-4978-9c14-e8a83090241c"
+@ruleCode("600208目录满200并数量大于5")
+@moduleName("promotions-module")
+@every_y_cart_total ( "{CNY=200}" )
+dialect "mvel" 
+salience 0
+when 
+   accumulate (
+      rule_b445c0ee3b8249789c14e8a83090241c_query($v6, $v4, $v5,$list,$total,$total2;)
+   ;
+      $v6_set : collectSet($v6), 
+      $v4_set : collectSet($v4),
+      $v5_set : collectSet($v5),
+      $total_set  : collectSet($total ),
+      $list_set  : collectSet($list ),
+      $total2_set  : collectSet($total2 ),
+      $result_count : count(1)
+   )
+   eval($result_count > 0)
+then
+   System.out.println("xxxxxxxxxxxxxxxxxxxx"+$v5_set); 
+   System.out.println("xxxxxxxxxxxxxxxxxxxx"+$v4_set); 
+   System.out.println("xxxxxxxxxxxxxxxxxxxx"+$v6_set); 
+   System.out.println("xxxxxxxxxxxxxxxxxxxxtotal_set:"+$total_set); 
+   System.out.println("xxxxxxxxxxxxxxxxxxxxtotal2_set:"+$total2_set); 
+   System.out.println("xxxxxxxxxxxxxxxxxxxxlist_set:"+$list_set); 
+   System.out.println("xxxxxxxxxxxxxxxxxxxxresult_count"+$result_count);  
+    
+   Map variables = [ 
+      "de.hybris.platform.ruleengineservices.rao.OrderEntryRAO" : $v6_set,
+      "de.hybris.platform.ruleengineservices.rao.CategoryRAO" : $v4_set,
+      "de.hybris.platform.ruleengineservices.rao.ProductRAO" : $v5_set
+   ];end
+   
+
+rule "x2" 
+    when 
+        accumulate (rule_2_query($v6, $v4, $v5,$totalx,$total2;),$7:sum($v6.getQuantity()))
+   	 	 
+    then 
+        System.out.println("----------"+$7 );  
+end
+   
+   

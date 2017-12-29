@@ -7,5 +7,7 @@
 	<classpathentry kind="con" path="DROOLS/Drools"/>
 	<classpathentry exported="true" kind="lib" path="/ruleengine/lib/kie-api-7.0.0.Final.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ruleengine"/>
+	<classpathentry kind="lib" path="commons-lang3-3.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/platform/ext/core/lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
