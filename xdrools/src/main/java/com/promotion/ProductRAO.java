@@ -1,8 +1,9 @@
 package com.promotion;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class ProductRAO {
+public class ProductRAO  implements Serializable  {
 
 
 	 

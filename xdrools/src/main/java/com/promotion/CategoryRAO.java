@@ -1,6 +1,8 @@
 package com.promotion;
 
-public class CategoryRAO {
+import java.io.Serializable;
+
+public class CategoryRAO  implements Serializable {
 
 
  	/** Default serialVersionUID value. */

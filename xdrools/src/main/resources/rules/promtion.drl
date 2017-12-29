@@ -19,11 +19,11 @@ query rule_b445c0ee3b8249789c14e8a83090241c_query(OrderEntryRAO $v6, CategoryRAO
 				from collect(OrderEntryRAO(product.categories contains $v4) )
          and
 	     $total := Number()
-			from accumulate($orderentry:OrderEntryRAO() from $v6 ,sum($orderentry.getQuantity()))
+			    from accumulate($orderentry:OrderEntryRAO() from $v6 ,sum($orderentry.getQuantity()))
 		 and
 	     $total2 := Number()
-			from accumulate(OrderEntryRAO(product.categories contains $v4),
-			sum($v6.getQuantity()) )
+				from accumulate(OrderEntryRAO(product.categories contains $v4),
+				sum($v6.getQuantity()) )
 	    )
 end
    
@@ -32,12 +32,12 @@ end
 
 query rule_2_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,Number $total,Number $total2)
    (
-   		  $v4 := CategoryRAO(code in ("600208", "600213"))
+   		 $v4 := CategoryRAO(code in ("600208", "600213","600215"),code not in ("600214"))
          and 
           $v5 := ProductRAO(categories contains $v4, code not in ("1022140008")) 
          and  
-    	 $v6 := OrderEntryRAO(product.categories contains $v4) 
-		    )
+    	  $v6 := OrderEntryRAO(product ==  $v5)
+		 )
 end
    
 
@@ -82,10 +82,16 @@ then
 
 rule "x2" 
     when 
-        accumulate (rule_2_query($v6, $v4, $v5,$totalx,$total2;),$7:sum($v6.getQuantity()))
-   	 	 
+        accumulate (rule_2_query($v6, $v4, $v5,$totalx,$total2;),$v6_set:collectSet($v6 ),$ventry:collectList($v6 ),$sl:collectList($v6.getQuantity() ))
+   	   and 
+   	   accumulate ($orderentry:OrderEntryRAO() from $v6_set,$totalx:sum($orderentry.getQuantity()))
     then 
-        System.out.println("----------"+$7 );  
+   
+        System.out.println($v6_set+   ""+((OrderEntryRAO)$ventry.get(0)).getQuantity()+ ""+
+        ((OrderEntryRAO)$ventry.get(1)).getQuantity()+""+
+        ((OrderEntryRAO)$ventry.get(2)).getQuantity()+""
+        
+        +"-----"+$totalx+"-----"+$sl);  
 end
    
    

@@ -1,9 +1,10 @@
 package com.promotion;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class OrderEntryRAO {
+public class OrderEntryRAO  implements Serializable {
 
 
 	 
