@@ -1,6 +1,7 @@
 package com.promotion;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,6 +84,7 @@ public class testXDrools {
 			kSession.insert(product2);
 			kSession.insert(product3);
 			kSession.insert(product4);
+			
 			
 			
 			OrderEntryRAO entry=new OrderEntryRAO();
