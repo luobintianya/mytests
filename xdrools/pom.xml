@@ -32,12 +32,20 @@
     </repository>
   </repositories>
 
+
   <dependencies>
     <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-api</artifactId>
       <version>${runtime.version}</version>
     </dependency>
+     <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
+    </dependency>
+    
+  
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core</artifactId>

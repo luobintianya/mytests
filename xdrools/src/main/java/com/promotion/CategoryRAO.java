@@ -2,6 +2,9 @@ package com.promotion;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class CategoryRAO  implements Serializable {
 
 
@@ -43,7 +46,7 @@ public class CategoryRAO  implements Serializable {
 		try
 		{
 			final CategoryRAO other = (CategoryRAO) o;
-			return new org.apache.commons.lang.builder.EqualsBuilder()
+			return new EqualsBuilder()
 			.append(getCode(), other.getCode()) 
 			.isEquals();
 		} 
@@ -56,7 +59,7 @@ public class CategoryRAO  implements Serializable {
 	@Override
 	public int hashCode()
 	{
-		return new org.apache.commons.lang.builder.HashCodeBuilder()
+		return new  HashCodeBuilder()
 		.append(getCode()) 
 		.toHashCode();
 	}

@@ -14,7 +14,7 @@ query rule_b445c0ee3b8249789c14e8a83090241c_query(OrderEntryRAO $v6, CategoryRAO
          and
          $v5 := ProductRAO(categories contains $v4 ) 
          and 
-         $v6 := OrderEntryRAO(product.categories contains $v4) 
+         $v6 := OrderEntryRAO(product.categories contains $v4,totalPrice> $v5.price) 
          and
          
          $list :=LinkedList()
@@ -38,7 +38,7 @@ query rule_2_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,Number $to
          and 
           $v5 := ProductRAO(categories contains $v4, code not in ("1022140008")) 
          and  
-    	  $v6 := OrderEntryRAO(product ==  $v5)
+    	  $v6 := OrderEntryRAO(product ==  $v5,totalPrice > $v5.price)
 		 )
 		 and
 		   not (
@@ -88,14 +88,14 @@ then
    ];end
    
 
-rule "x2" 
+rule "x2"
     when 
         accumulate (rule_2_query($v6, $v4, $v5,$totalx,$total2;),$v6_set:collectSet($v6 ),$ventry:collectList($v6 ),$sl:collectList($v6.getQuantity() ))
    	  
-        and    accumulate (
-	$orderEntry:OrderEntryRAO() from $v6_set ;  $categorytotalPrice:sum($orderEntry.getTotalPrice()), $categoryTotalQuantity:sum($orderEntry.getQuantity());$categorytotalPrice >= 200.0,$categoryTotalQuantity >= new Integer(1) )
-    then 
-     BigDecimal  every=(((BigDecimal)$categorytotalPrice).divide(new BigDecimal(200), 0, RoundingMode.DOWN));
+        and    
+        accumulate ($orderEntry:OrderEntryRAO() from $v6_set ; $categorytotalPrice:sum($orderEntry.getTotalPrice()), $categoryTotalQuantity:sum($orderEntry.getQuantity());$categorytotalPrice >= new BigDecimal(200),$categoryTotalQuantity >= new Integer(1) )
+    then  
+     BigDecimal  every=(new BigDecimal(String.valueOf($categorytotalPrice))).divide(new BigDecimal(200), 0, RoundingMode.DOWN);
      System.out.println($categorytotalPrice+" "+$categoryTotalQuantity +" " +every );  
 end
    

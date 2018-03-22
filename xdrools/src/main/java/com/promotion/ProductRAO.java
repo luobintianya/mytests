@@ -1,7 +1,11 @@
 package com.promotion;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class ProductRAO  implements Serializable  {
 
@@ -11,6 +15,18 @@ public class ProductRAO  implements Serializable  {
 	/** <i>Generated property</i> for <code>ProductRAO.code</code> property defined at extension <code>ruleengineservices</code>. */
 		
 	private String code;
+	
+	private BigDecimal price=BigDecimal.valueOf(0);
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
 	/** <i>Generated property</i> for <code>ProductRAO.categories</code> property defined at extension <code>ruleengineservices</code>. */
 		
@@ -60,7 +76,7 @@ public class ProductRAO  implements Serializable  {
 		try
 		{
 			final ProductRAO other = (ProductRAO) o;
-			return new org.apache.commons.lang.builder.EqualsBuilder()
+			return new  EqualsBuilder()
 			.append(getCode(), other.getCode()) 
 			.isEquals();
 		} 
@@ -73,7 +89,7 @@ public class ProductRAO  implements Serializable  {
 	@Override
 	public int hashCode()
 	{
-		return new org.apache.commons.lang.builder.HashCodeBuilder()
+		return new  HashCodeBuilder()
 		.append(getCode()) 
 		.toHashCode();
 	}

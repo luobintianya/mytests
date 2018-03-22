@@ -57,6 +57,7 @@ public class testXDrools {
 			kSession.insert(category600215);
 			
 			ProductRAO product=new ProductRAO();
+			product.setPrice(BigDecimal.valueOf(100d));
 			product.setCode("11111");///213
 			Set<CategoryRAO> categorys1=new HashSet<CategoryRAO>();
 			categorys1.add(category600213);
@@ -64,6 +65,8 @@ public class testXDrools {
 			product.getCategories().add(category600215);
 			ProductRAO product2=new ProductRAO();
 			product2.setCode("22222");//208
+
+			product2.setPrice(BigDecimal.valueOf(100d));
 			Set<CategoryRAO> categorys3=new HashSet<CategoryRAO>();
 			categorys3.add(category600208);
 			product2.setCategories(categorys3);
@@ -91,24 +94,27 @@ public class testXDrools {
 			entry.setProduct(product);
 			entry.setQuantity(3);
 			entry.setTotalPrice(BigDecimal.valueOf(100)); 
+			entry.setBasePrice(BigDecimal.valueOf(100));
 			
 			OrderEntryRAO entry2=new OrderEntryRAO();
 			entry2.setProduct(product2);
 			entry2.setQuantity(2);
 			entry2.setTotalPrice(BigDecimal.valueOf(100));
-			
+ 
 			
 			
 			OrderEntryRAO entry3=new OrderEntryRAO();
 			entry3.setProduct(product3);
 			entry3.setQuantity(4);
 			entry3.setTotalPrice(BigDecimal.valueOf(200)); 
+ 
+			 
 			
 			
 			OrderEntryRAO entry4=new OrderEntryRAO();
 			entry4.setProduct(product4);
 			entry4.setQuantity(7);
-			entry4.setTotalPrice(BigDecimal.valueOf(200)); 
+			entry4.setTotalPrice(BigDecimal.valueOf(300)); 
 			 
 			kSession.insert(entry);
 			kSession.insert(entry2);
