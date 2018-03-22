@@ -27,6 +27,10 @@ rule "GoodBye"
         System.out.println($config+ myMessage+$km +$m);  
 end
  
+query subtest(Person $k) 
+    accumulate($k := Person(Double.valueOf(age).doubleValue() > 20d);$s:=sum($k.getAge()))
+    eval(($s).doubleValue() > 1)
+end
 
 rule "GoodBye2"
   salience 9999
