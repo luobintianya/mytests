@@ -6,6 +6,7 @@ import com.promotion.CategoryRAO;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.math.RoundingMode;
+import java.util.Map;
  
 query rule_b445c0ee3b8249789c14e8a83090241c_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,LinkedList $list,Number $total,Number $total2)
    (
@@ -14,7 +15,7 @@ query rule_b445c0ee3b8249789c14e8a83090241c_query(OrderEntryRAO $v6, CategoryRAO
          and
          $v5 := ProductRAO(categories contains $v4 ) 
          and 
-         $v6 := OrderEntryRAO(product.categories contains $v4,totalPrice> $v5.price) 
+         $v6 := OrderEntryRAO(product.categories contains $v4) 
          and
          
          $list :=LinkedList()
@@ -38,7 +39,7 @@ query rule_2_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,Number $to
          and 
           $v5 := ProductRAO(categories contains $v4, code not in ("1022140008")) 
          and  
-    	  $v6 := OrderEntryRAO(product ==  $v5,totalPrice > $v5.price)
+    	  $v6 := OrderEntryRAO(product.code ==  $v5.code,totalPrice > $v5.price)
 		 )
 		 and
 		   not (
