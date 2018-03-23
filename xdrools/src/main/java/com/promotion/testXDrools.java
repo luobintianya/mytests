@@ -82,7 +82,7 @@ public class testXDrools {
 			Set<CategoryRAO> categorys5=new HashSet<CategoryRAO>();
 			categorys5.add(category600215);
 			product4.setCategories(categorys5); 
-
+			product4.setPrice(BigDecimal.valueOf(300));
 			kSession.insert(product);
 			kSession.insert(product2);
 			kSession.insert(product3);

@@ -39,7 +39,7 @@ query rule_2_query(OrderEntryRAO $v6, CategoryRAO $v4, ProductRAO $v5,Number $to
          and 
           $v5 := ProductRAO(categories contains $v4, code not in ("1022140008")) 
          and  
-    	  $v6 := OrderEntryRAO(product.code ==  $v5.code,totalPrice > $v5.price)
+    	  $v6 := OrderEntryRAO(product.code ==  $v5.code,totalPrice >= $v5.price)
 		 )
 		 and
 		   not (
